@@ -1,3 +1,4 @@
+<!-- vscode-markdown-toc -->
 * 1. [SQL](#SQL)
 * 2. [MySQL setup on MacOS](#MySQLsetuponMacOS)
 * 3. [Setup sample database](#Setupsampledatabase)
@@ -14,6 +15,19 @@
 	* 6.3. [Update](#Update)
 	* 6.4. [Delete](#Delete)
 	* 6.5. [NULL](#NULL)
+	* 6.6. [Adding NULL Values](#AddingNULLValues)
+	* 6.7. [Query Clauses](#QueryClauses)
+	* 6.8. [Order of evaluation](#Orderofevaluation)
+	* 6.9. [Table types](#Tabletypes)
+	* 6.10. [Question : Select all the cites of India and United States](#Question:SelectallthecitesofIndiaandUnitedStates)
+		* 6.10.1. [Possible Solutions :](#PossibleSolutions:)
+	* 6.11. [Temporary Table](#TemporaryTable)
+	* 6.12. [Concat](#Concat)
+	* 6.13. [Virtual Table Example](#VirtualTableExample)
+	* 6.14. [Question : Get all the cities of all the countries which has population more than 1700000](#Question:Getallthecitiesofallthecountrieswhichhaspopulationmorethan1700000)
+		* 6.14.1. [Solution](#Solution)
+	* 6.15. [Below three queries works the same way](#Belowthreequeriesworksthesameway)
+* 7. [Data Control Language (DCL): GRANT, REVOKE](#DataControlLanguageDCL:GRANTREVOKE)
 
 # Relational Databases and SQL 
 
@@ -223,7 +237,7 @@ SELECT student_id as ID, name AS StudentName, age AS Age FROM students;
 ![](slides/2023-10-01-13-11-30.png)
 
 
-### Adding NULL Values
+###  6.6. <a name='AddingNULLValues'></a>Adding NULL Values
 ```sql
 INSERT INTO STUDENTS (name,age,gender,contact_number,enrollment_date,course_enrolled) VALUES('Rajkumar',20,'Male',NULL,'2023-05-15','Computer Science');
 
@@ -236,7 +250,7 @@ select * from students where contact_number IS NULL;
 select * from students where contact_number IS NOT NULL;
 ```
 
-### Query Clauses
+###  6.7. <a name='QueryClauses'></a>Query Clauses
 ![](slides/2023-10-01-13-19-47.png)
 <br></br>
 ---
@@ -262,12 +276,12 @@ select * from students where contact_number IS NOT NULL;
 <br></br>
 ---
 
-### Order of evaluation
+###  6.8. <a name='Orderofevaluation'></a>Order of evaluation
 ![](slides/2023-10-01-13-37-21.png)
 <br></br>
 ---
 
-### Table types
+###  6.9. <a name='Tabletypes'></a>Table types
 1. Permanent Table - Normal tables
 2. Derived Table - Result of a query
 3. Temporary tables - Can create temporary table
@@ -280,15 +294,15 @@ select code , name from country where name = "India" or name = "United States";
 select * from city limit 10;
 ```
 
-### Question : Select all the cites of India and United States
-#### Possible Solutions :
+###  6.10. <a name='Question:SelectallthecitesofIndiaandUnitedStates'></a>Question : Select all the cites of India and United States
+####  6.10.1. <a name='PossibleSolutions:'></a>Possible Solutions :
 ```sql
 select * from city where CountryCode in (select code from country where name in ("INDIA","United States"));
 select * from city where CountryCode in ("IND","USA")
 select * from city where CountryCode = "IND" OR CountryCode = "USA";
 ```
 
-### Temporary Table 
+###  6.11. <a name='TemporaryTable'></a>Temporary Table 
 ```sql
 CREATE TEMPORARY TABLE STUDENTS1(
     student_id INT AUTO_INCREMENT PRIMARY KEY, 
@@ -303,12 +317,12 @@ show tables;
 select * from students1; 
 ```
 
-### Concat
+###  6.12. <a name='Concat'></a>Concat
 ```sql
 select concat(name," : ",countrycode) from city where CountryCode in (select code from country where name in ("INDIA","United States"));
 ```
 
-### Virtual Table Example
+###  6.13. <a name='VirtualTableExample'></a>Virtual Table Example
 ```sql
 CREATE VIEW CityNames as select concat(name," : ",countrycode) from city where CountryCode in (select code from country where name in ("INDIA","United States"));
 ```
@@ -316,8 +330,8 @@ CREATE VIEW CityNames as select concat(name," : ",countrycode) from city where C
 <br></br>
 ---
 
-### Question : Get all the cities of all the countries which has population more than 1700000
-#### Solution
+###  6.14. <a name='Question:Getallthecitiesofallthecountrieswhichhaspopulationmorethan1700000'></a>Question : Get all the cities of all the countries which has population more than 1700000
+####  6.14.1. <a name='Solution'></a>Solution
 
 ```sql
 SELECT SUM(population),CountryCode FROM City
@@ -325,7 +339,7 @@ GROUP BY CountryCode
 HAVING SUM(population) > 1700000;
 ```
 
-### Below three queries works the same way
+###  6.15. <a name='Belowthreequeriesworksthesameway'></a>Below three queries works the same way
 ```sql
 SELECT SUM(population),CountryCode FROM City
 GROUP BY CountryCode
@@ -347,7 +361,7 @@ HAVING SUM(population) > 1700000
 ORDER BY Pop DESC;
 ```
 
-## Data Control Language (DCL): GRANT, REVOKE
+##  7. <a name='DataControlLanguageDCL:GRANTREVOKE'></a>Data Control Language (DCL): GRANT, REVOKE
 ![](slides/2023-10-01-15-17-00.png)
 <br></br>
 ---
